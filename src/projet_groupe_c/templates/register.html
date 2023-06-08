@@ -4,12 +4,13 @@
 <div class="container">
     <h1 class="title is-1 has-text-centered">Inscription</h1>
 
-    <form>
+    <form method="post">
+        {% csrf_token %}
         <div class="field">
             <label class="label">Pseudonyme</label>
             
             <div class="control has-icons-left has-icons-right">
-                <input class="input is-medium" type="text" placeholder="Léon">
+                <input type="text" name="username" placeholder="Nom d'utilisateur" required>
                 
                 <span class="icon is-small is-left">
                     <i class="fas fa-user"></i>
@@ -25,7 +26,7 @@
             <label class="label">Mot de passe</label>
             
             <div class="control has-icons-left">
-                <input class="input is-medium" type="password" placeholder="********">
+                <input type="password" name="password" placeholder="Mot de passe" required>
 
                 <span class="icon is-small is-left">
                     <i class="fas fa-lock"></i>
@@ -37,7 +38,7 @@
             <label class="label">Confirmation du mot de passe</label>
             
             <div class="control has-icons-left">
-                <input class="input is-medium" type="password" placeholder="********">
+                <input type="password" name="password" placeholder="Mot de passe" required>
 
                 <span class="icon is-small is-left">
                     <i class="fas fa-lock"></i>
