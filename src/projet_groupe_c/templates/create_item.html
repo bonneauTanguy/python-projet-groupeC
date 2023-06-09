@@ -1,26 +1,56 @@
 {% extends 'index.html' %}
+
 {% block main_content %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Créer un nouvel item</title>
-</head>
-<body>
-    <h1>Créer un nouvel item</h1>
+<div class="container">
+    <h1 class="title is-1 has-text-centered">Créer un nouvel item</h1>
 
     <form method="post" action="{% url 'create_item' %}">
         {% csrf_token %}
-        <label for="username">Nom d'utilisateur:</label>
-        <input type="text" id="username" name="username"><br><br>
+        <div class="field">
+            <label class="label" for="username">Nom d'utilisateur</label>
+            
+            <div class="control has-icons-left has-icons-right">
+                <input class="input" type="text" id="username" name="username" placeholder="Nom d'utilisateur">
+
+                <span class="icon is-small is-left">
+                    <i class="fas fa-user"></i>
+                </span>
+
+                <span class="icon is-small is-right">
+                    <i class="fas fa-check"></i>
+                </span>
+            </div>
+        </div>
         
-        <label for="password">Mot de passe:</label>
-        <input type="password" id="password" name="password"><br><br>
+        <div class="field">
+            <label class="label" for="password">Mot de passe</label>
+            
+            <div class="control has-icons-left">
+                <input class="input" type="password" id="password" name="password" placeholder="Mot de passe">
+            
+                <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                </span>
+            </div>
+        </div>
         
-        <label for="url">URL:</label>
-        <input type="text" id="url" name="url"><br><br>
+        <div class="field">
+            <label class="label" for="url">URL</label>
+
+            <div class="control has-icons-left">
+                <input class="input" type="text" id="url" name="url" placeholder="Lien">
+
+                <span class="icon is-small is-left">
+                    <i class="fas fa-link"></i>
+                </span>
+            </div>
+        </div>
         
-        <input type="submit" value="Créer">
+        <div class="field">
+            <button class="button is-fullwidth is-success is-centered" type="submit">
+                <span>Créer</span>
+            </button>
+        </div>
     </form>
-</body>
-</html>
+</div>
 {% endblock %}
