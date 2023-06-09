@@ -11,6 +11,7 @@ from .models import Item
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
@@ -81,3 +82,24 @@ def create_item(request):
 def item_list(request):
     items = Item.objects.filter(user=request.user)
     return render(request, "item_list.html", {"items": items})
+
+
+@login_required
+def changed_mind(request):
+    if request.method == "POST":
+        new_username = request.POST["new_username"]
+        if new_username != request.user.username:
+            if User.objects.filter(username=new_username).exists():
+                error_message = "Ce nom d'utilisateur est déjà utilisé. Veuillez en choisir un autre."
+            else:
+                request.user.username = new_username
+                request.user.save()
+                success_message = "Votre nom d'utilisateur a été modifié avec succès."
+        else:
+            error_message = (
+                "Veuillez entrer un nom d'utilisateur différent de celui actuel."
+            )
+    return render(
+        request,
+        "username_modification.html",
+    )

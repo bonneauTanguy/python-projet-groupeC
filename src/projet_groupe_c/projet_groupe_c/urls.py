@@ -16,7 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .views import create_item, item_list, login_view, registration_view, index
+from .views import (
+    create_item,
+    item_list,
+    login_view,
+    registration_view,
+    changed_mind,
+    index,
+)
 
 urlpatterns = [
     path("", index, name="index"),
@@ -25,4 +32,5 @@ urlpatterns = [
     path("login/", login_view, name="login"),
     path("create_item/", create_item, name="create_item"),
     path("item_list/", item_list, name="item_list"),
+    path("changedmymind/", changed_mind, name="changed_mind"),
 ]
