@@ -34,7 +34,7 @@ def login_view(request):
             login(request, user)
             print("je suis dans le if user")
             return redirect(
-                "home.html"
+                "/"
             )  # Redirigez vers la page d'accueil après la connexion réussie
     return render(request, "login.html")
 

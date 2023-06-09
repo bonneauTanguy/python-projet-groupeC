@@ -1,23 +1,19 @@
 {% extends 'index.html' %}
 
 {% block main_content %}
-<!DOCTYPE html>
-<html>
+<div class="container is-centered">
+    <h1 class="title is-1 has-text-centered">Ma liste d'items</h1>
 
-<head>
-    <title>Liste items</title>
-</head>
-<body>
-
-    <table>
-        <thead>
+    <table class="table is-fullwidth is-bordered is-striped">
+        <thead class="has-background-link">
             <tr>
-                <th>Username</th>
-                <th>Password</th>
-                <th>URL</th>
-                <th>Date de création</th>
+                <th class="has-text-white has-text-centered">Username</th>
+                <th class="has-text-white has-text-centered">Password</th>
+                <th class="has-text-white has-text-centered">URL</th>
+                <th class="has-text-white has-text-centered">Date de création</th>
             </tr>
         </thead>
+        
         <tbody>
             {% for item in items %}
             <tr>
@@ -29,6 +25,5 @@
             {% endfor %}
         </tbody>
     </table>
-</body>
-</html>
+</div>
 {% endblock %}
