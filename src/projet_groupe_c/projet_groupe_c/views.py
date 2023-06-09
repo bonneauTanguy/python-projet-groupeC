@@ -55,16 +55,6 @@ def registration_view(request):
     return render(request, "register.html", {"form": form})
 
 
-def registration_view(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('login')  # Redirigez vers la page de connexion après l'inscription réussie
-    else:
-        form = UserCreationForm()
-    return render(request, 'register.html', {'form': form})
-
 def logout(request):
     return render(request, "logout.html")
 
