@@ -17,6 +17,9 @@ def index(request):
     return render(request, "home.html")
 
 
+def profil(request):
+    return render(request, 'profil.html')
+
 def register(request):
     return render(request, "register.html")
 

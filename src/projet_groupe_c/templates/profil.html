@@ -1,0 +1,31 @@
+{% extends 'index.html' %}
+
+{% block main_content %}
+<div class="container">
+    <h1 class="title is-1 has-text-centered">Profil</h1>
+
+    <form>
+        <div class="field">
+            <label class="label">Changer mon pseudo</label>
+
+            <div class="control has-icons-left has-icons-right">
+                <input class="input is-medium" type="text" placeholder="Léon">
+
+                <span class="icon is-small is-left">
+                    <i class="fas fa-user"></i>
+                </span>
+
+                <span class="icon is-small is-right">
+                    <i class="fas fa-check"></i>
+                </span>
+            </div>
+        </div>
+
+        <div class="field">
+            <button class="button is-fullwidth is-success is-centered" type="submit">
+                <span>Valider le changement</span>
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
