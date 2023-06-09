@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Liste items</title>
+</head>
+<body>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Password</th>
+                <th>URL</th>
+                <th>Date de création</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.username }}</td>
+                <td>{{ item.password }}</td>
+                <td>{{ item.url }}</td>
+                <td>{{ item.creation_date }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
