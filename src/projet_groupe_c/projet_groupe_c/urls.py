@@ -22,6 +22,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("register/", registration_view, name="register"),
     path("login/", login_view, name="login"),
-    path("create_item", create_item, name="create_item"),
-    path("item_list", item_list, name="item_list"),
+    path("create_item/", create_item, name="create_item"),
+    path("item_list/", item_list, name="item_list"),
 ]

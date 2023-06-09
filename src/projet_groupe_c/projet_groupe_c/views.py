@@ -38,7 +38,7 @@ def registration_view(request):
         if form.is_valid():
             form.save()
             return redirect(
-                "login"
+                "login", permanent=True
             )  # Redirigez vers la page de connexion après l'inscription réussie
         else:
             print(
@@ -61,8 +61,6 @@ def create_item(request):
         password = request.POST.get("password")
         url = request.POST.get("url")
         user = request.user
-
-        utilisateur = User.objects.get()
         item_object = Item.objects.create(
             username=username,
             password=password,
