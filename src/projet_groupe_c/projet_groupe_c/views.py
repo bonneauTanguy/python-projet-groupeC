@@ -1,16 +1,20 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 import requests
-from datetime import date
+from datetime import date, datetime
 
 
 # Create your views here.
 
 from django.http import HttpResponse, HttpRequest
 from django.contrib.auth.models import User
-from .models import Item
+from .models import Item, ItemHistory, Archived
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
+
+
+def index(request):
+    return render(request, "home.html")
 
 
 def register(request):
@@ -77,3 +81,47 @@ def create_item(request):
 def item_list(request):
     items = Item.objects.filter(user=request.user)
     return render(request, "item_list.html", {"items": items})
+
+
+def edit_item(request, item_id):
+    item = get_object_or_404(Item, id=item_id, user=request.user)
+
+    if request.method == "POST":
+        # Récupérer les nouvelles données du formulaire de modification
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        url = request.POST.get("url")
+
+        # Mettre à jour les champs de l'item existant
+        item.username = username
+        item.password = password
+        item.url = url
+        item.save()
+
+        # Enregistrer les anciennes valeurs dans la table ItemHistory
+        history_item = ItemHistory.objects.create(
+            username=item.username,
+            password=item.password,
+            url=item.url,
+            modification_date=datetime.now(),
+        )
+
+        # Lier l'item modifié à l'ItemHistory dans la table Archived
+        archived_item = Archived.objects.create(
+            item=item,
+            history=history_item,
+        )
+
+        return redirect("item_list")
+
+    return render(request, "edit_item.html", {"item": item})
+
+
+def delete_item(request, item_id):
+    item = get_object_or_404(Item, id=item_id, user=request.user)
+
+    if request.method == "POST":
+        item.delete()
+        return redirect("item_list")
+
+    return render(request, "delete_item.html", {"item": item})
