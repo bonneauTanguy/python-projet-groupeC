@@ -8,6 +8,51 @@ from datetime import date
 from django.http import HttpResponse, HttpRequest
 from django.contrib.auth.models import User
 from .models import Item
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserCreationForm
+
+
+def register(request):
+    return render(request, "register.html")
+
+
+def login_view(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(username=username, password=password)
+        print("juste avant")
+        if user is not None:
+            login(request, user)
+            print("je suis dans le if user")
+            return redirect(
+                "home.html"
+            )  # Redirigez vers la page d'accueil après la connexion réussie
+    return render(request, "login.html")
+
+
+def registration_view(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(
+                "login"
+            )  # Redirigez vers la page de connexion après l'inscription réussie
+        else:
+            print(
+                form.errors
+            )  # Afficher les erreurs du formulaire dans la console Python
+
+    else:
+        form = UserCreationForm()
+
+    return render(request, "register.html", {"form": form})
+
+
+def logout(request):
+    return render(request, "logout.html")
 
 
 def create_item(request):
