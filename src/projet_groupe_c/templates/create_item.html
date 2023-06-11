@@ -1,0 +1,26 @@
+{% extends 'index.html' %}
+{% block main_content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Créer un nouvel item</title>
+</head>
+<body>
+    <h1>Créer un nouvel item</h1>
+
+    <form method="post" action="{% url 'create_item' %}">
+        {% csrf_token %}
+        <label for="username">Nom d'utilisateur:</label>
+        <input type="text" id="username" name="username"><br><br>
+        
+        <label for="password">Mot de passe:</label>
+        <input type="password" id="password" name="password"><br><br>
+        
+        <label for="url">URL:</label>
+        <input type="text" id="url" name="url"><br><br>
+        
+        <input type="submit" value="Créer">
+    </form>
+</body>
+</html>
+{% endblock %}

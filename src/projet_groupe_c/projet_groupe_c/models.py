@@ -7,7 +7,7 @@ class Item(models.Model):
     password = models.CharField(max_length=255)
     url = models.CharField(max_length=255)
     creation_date = models.DateTimeField()
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
 class ItemHistory(models.Model):
