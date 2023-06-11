@@ -135,6 +135,11 @@ def delete_item(request, item_id):
     return render(request, "delete_item.html", {"item": item})
 
 
+def get_password(request, item_id):
+    item = get_object_or_404(Item, id=item_id)
+    return render(request, "get_password.html", {"item": item})
+
+
 def change_password(request):
     if request.method == "POST":
         form = PasswordForm(request.POST)
