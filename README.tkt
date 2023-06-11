@@ -1,0 +1,7 @@
+Après avoir installé et lancé Django et Pyenv, vous devez vous rendre sur la page d'accueil de l'application. Pour cela, ouvrez votre navigateur et accédez à l'adresse locale de votre ordinateur.
+
+Sur la barre de navigation, vous trouverez un bouton d'inscription/connexion pour l'application. Vous pouvez créer votre compte en cliquant dessus, puis vous connecter à l'application.
+
+Ensuite, toujours sur la barre de navigation, vous verrez le bouton "Créer" qui vous dirigera vers la page de création d'éléments ou de mots de passe.
+
+Après avoir créé votre élément/mot de passe, vous serez redirigé vers la page de liste d'éléments. Vous pouvez également y accéder en cliquant sur le bouton correspondant dans la barre de navigation de l'application.
