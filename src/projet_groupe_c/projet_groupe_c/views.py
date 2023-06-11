@@ -25,6 +25,9 @@ def index(request):
     return render(request, "home.html")
 
 
+def profil(request):
+    return render(request, 'profil.html')
+
 def register(request):
     logger.info("Accès à la vue register")
     return render(request, "register.html")
