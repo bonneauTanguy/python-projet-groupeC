@@ -1,49 +1,61 @@
 {% extends 'index.html' %}
 
 {% block main_content %}
-<!DOCTYPE html>
-<html>
+    <div class="container is-centered">
+        <h1 class="title is-1 has-text-centered">Ma liste d'items</h1>
 
-<head>
-    <title>Liste items</title>
-</head>
-<body>
+        <table class="table is-fullwidth is-bordered is-striped">
+            <thead class="has-background-link">
+                <tr>
+                    <th class="has-text-white has-text-centered">Username</th>
+                    <th class="has-text-white has-text-centered">Password</th>
+                    <th class="has-text-white has-text-centered">URL</th>
+                    <th class="has-text-white has-text-centered">Date de création</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.username }}</td>
+                    <td>
+                        <span id="password-{{ item.id }}">********</span>
+                        <button onclick="getPassword('{{ item.id }}')">Afficher mot de passe</button>
+                    </td>
+                    <td>{{ item.url }}</td>
+                    <td>{{ item.creation_date }}</td>
+                    <td>
+                        <a href="{% url 'edit_item' item.id %}">Modifier</a>
+                    </td>
+                    <td>
+                        <form method="post" action="{% url 'delete_item' item.id %}">
+                            {% csrf_token %}
+                            <button type="submit" onclick="return confirmDelete()">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Username</th>
-                <th>Password</th>
-                <th>URL</th>
-                <th>Date de création</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in items %}
-            <tr>
-                <td>{{ item.username }}</td>
-                <td>{{ item.password }}</td>
-                <td>{{ item.url }}</td>
-                <td>{{ item.creation_date }}</td>
-                <td>
-                    <a href="{% url 'edit_item' item.id %}">Modifier</a>
-                </td>
-                <td>
-                    <form method="post" action="{% url 'delete_item' item.id %}">
-                        {% csrf_token %}
-                        <button type="submit" onclick="return confirmDelete()">Supprimer</button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
     <script>
         function confirmDelete() {
             var result = confirm("Êtes-vous sûr de vouloir supprimer cet item ?");
             return result;
         }
+/* le script fonctionne mais je n'arrive pas à le mettre dans un fichier js externe à la page html */
+        function getPassword(itemId) {
+    var passwordSpan = document.getElementById("password-" + itemId);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'http://127.0.0.1:8000/item/' + itemId + '/');
+    xhr.onload = function() {   
+        if (xhr.status === 200) {
+            passwordSpan.textContent = xhr.responseText;
+        }
+    };
+    xhr.send();
+}
+
     </script>
-</body>
-</html>
 {% endblock %}
