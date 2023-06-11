@@ -1,6 +1,7 @@
 from django.shortcuts import render
 import requests
 from datetime import date
+import logging
 
 
 # Create your views here.
@@ -13,12 +14,16 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 
+logger = logging.getLogger(__name__)
+
 
 def index(request):
+    logger.info("Accès à la vue index")
     return render(request, "home.html")
 
 
 def register(request):
+    logger.info("Accès à la vue register")
     return render(request, "register.html")
 
 
@@ -27,7 +32,7 @@ def login_view(request):
         username = request.POST["username"]
         password = request.POST["password"]
         user = authenticate(username=username, password=password)
-        print("juste avant")
+        logger.info(f"Tentative de connexion de l'utilisateur {username}")
         if user is not None:
             login(request, user)
             print("je suis dans le if user")
@@ -42,13 +47,12 @@ def registration_view(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
+            logger.info("Nouvel utilisateur enregistré")
             return redirect(
                 "login", permanent=True
             )  # Redirigez vers la page de connexion après l'inscription réussie
         else:
-            print(
-                form.errors
-            )  # Afficher les erreurs du formulaire dans la console Python
+            logger.error(f"Erreurs de formulaire d'inscription: {form.errors}")
 
     else:
         form = UserCreationForm()
@@ -57,6 +61,7 @@ def registration_view(request):
 
 
 def logout(request):
+    logger.info("Utilisateur déconnecté")
     return render(request, "logout.html")
 
 
@@ -74,13 +79,14 @@ def create_item(request):
             user=user,
         )
         item_object.save()
-
+        logger.info(f"Nouvel item créé par l'utilisateur {user.username}")
         return render(request, "create_item.html")
     return render(request, "create_item.html", context={})
 
 
 def item_list(request):
     items = Item.objects.filter(user=request.user)
+    logger.info(f"Accès à la vue item_list par l'utilisateur {request.user.username}")
     return render(request, "item_list.html", {"items": items})
 
 
@@ -91,15 +97,19 @@ def changed_mind(request):
         if new_username != request.user.username:
             if User.objects.filter(username=new_username).exists():
                 error_message = "Ce nom d'utilisateur est déjà utilisé. Veuillez en choisir un autre."
+                logger.warning(
+                    "Tentative de modification du nom d'utilisateur échouée : nom d'utilisateur déjà utilisé."
+                )
             else:
                 request.user.username = new_username
                 request.user.save()
                 success_message = "Votre nom d'utilisateur a été modifié avec succès."
+                logger.info("Nom d'utilisateur modifié avec succès.")
         else:
             error_message = (
                 "Veuillez entrer un nom d'utilisateur différent de celui actuel."
             )
-    return render(
-        request,
-        "username_modification.html",
-    )
+            logger.warning(
+                "Tentative de modification du nom d'utilisateur échouée : même nom d'utilisateur."
+            )
+    return render(request, "username_modification.html")
