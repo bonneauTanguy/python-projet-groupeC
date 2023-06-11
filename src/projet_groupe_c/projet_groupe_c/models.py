@@ -3,11 +3,12 @@ from django.contrib.auth.models import User
 
 
 class Item(models.Model):
-    username = models.CharField(max_length=255)
-    password = models.CharField(max_length=255)
-    url = models.CharField(max_length=255)
-    creation_date = models.DateTimeField()
+    username = models.CharField(max_length=100)
+    password = models.CharField(max_length=100)
+    url = models.URLField()
+    creation_date = models.DateField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    password_score = models.IntegerField(default=0)  
 
 
 class ItemHistory(models.Model):

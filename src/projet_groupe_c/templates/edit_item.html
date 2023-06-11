@@ -1,0 +1,19 @@
+{% extends 'index.html' %}
+
+{% block main_content %}
+    <h1>Modifier l'item</h1>
+
+    <form method="post" action="{% url 'edit_item' item.id %}">
+        {% csrf_token %}
+        <label for="username">Nom d'utilisateur:</label>
+        <input type="text" id="username" name="username" value="{{ item.username }}"><br><br>
+        
+        <label for="password">Mot de passe:</label>
+        <input type="password" id="password" name="password" value="{{ item.password }}"><br><br>
+        
+        <label for="url">URL:</label>
+        <input type="text" id="url" name="url" value="{{ item.url }}"><br><br>
+        
+        <input type="submit" value="Modifier">
+    </form>
+{% endblock %}
