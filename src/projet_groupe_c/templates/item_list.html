@@ -11,32 +11,34 @@
                 <th class="has-text-white has-text-centered">Password</th>
                 <th class="has-text-white has-text-centered">URL</th>
                 <th class="has-text-white has-text-centered">Date de création</th>
+                <th colspan="2" class="has-text-white has-text-centered">Actions</th>
             </tr>
         </thead>
         
         <tbody>
             {% for item in items %}
-            <tr>
+            <tr class="has-text-centered">
                 <td>{{ item.username }}</td>
                 <td>
-                    <span id="password-{{ item.id }}">********</span>
-                    <button onclick="getPassword('{{ item.id }}')">Afficher mot de passe</button>
+                    <p class="is-fullwidth" id="password-{{ item.id }}">********</p>
+                    <button class="button is-info" onclick="getPassword('{{ item.id }}')">Afficher le mot de passe</button>
                 </td>
                 <td>{{ item.url }}</td>
                 <td>{{ item.creation_date }}</td>
                 <td>
-                    <a href="{% url 'edit_item' item.id %}">Modifier</a>
+                    <a class="button is-warning" href="{% url 'edit_item' item.id %}">Modifier</a>
                 </td>
                 <td>
                     <form method="post" action="{% url 'delete_item' item.id %}">
                         {% csrf_token %}
-                        <button type="submit" onclick="return confirmDelete()">Supprimer</button>
+                        <button class="button is-danger" type="submit" onclick="return confirmDelete()">Supprimer</button>
                     </form>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+
     <script>
         function confirmDelete() {
             var result = confirm("Êtes-vous sûr de vouloir supprimer cet item ?");
@@ -45,18 +47,16 @@
 
         /* le script fonctionne mais je n'arrive pas à le mettre dans un fichier js externe à la page html */
         function getPassword(itemId) {
-    var passwordSpan = document.getElementById("password-" + itemId);
+            var passwordSpan = document.getElementById("password-" + itemId);
 
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://127.0.0.1:8000/item/' + itemId + '/');
-    xhr.onload = function() {   
-        if (xhr.status === 200) {
-            passwordSpan.textContent = xhr.responseText;
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'http://127.0.0.1:8000/item/' + itemId + '/');
+            xhr.onload = function() {   
+                if (xhr.status === 200) {
+                    passwordSpan.textContent = xhr.responseText;
+                }
+            };
+            xhr.send();
         }
-    };
-    xhr.send();
-}
     </script>
-</body>
-</html>
 {% endblock %}

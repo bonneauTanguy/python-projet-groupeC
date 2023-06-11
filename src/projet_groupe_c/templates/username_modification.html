@@ -1,17 +1,40 @@
 {% extends 'index.html' %}
 
 {% block main_content %}
-  <h2>Changer de nom d'utilisateur</h2>
-  {% if error_message %}
-    <p>{{ error_message }}</p>
-  {% endif %}
-  {% if success_message %}
-    <p>{{ success_message }}</p>
-  {% endif %}
-  <form method="post" action="{% url 'changed_mind' %}">
-    {% csrf_token %}
-    <label for="new_username">Nouveau nom d'utilisateur:</label>
-    <input type="text" name="new_username" id="new_username" required>
-    <button type="submit">Changer</button>
-  </form>
+  <div class="container">
+    <h1 class="title is-1 has-text-centered">Changer de nom d'utilisateur</h1>
+
+    {% if error_message %}
+      <p>{{ error_message }}</p>
+    {% endif %}
+    
+    {% if success_message %}
+      <p>{{ success_message }}</p>
+    {% endif %}
+    
+    <form method="post" action="{% url 'changed_mind' %}">
+      {% csrf_token %}
+      <div class="field">
+        <label class="label" for="new_username">Changer mon pseudo</label>
+        
+        <div class="control has-icons-left has-icons-right">
+          <input class="input is-medium" type="text" name="new_username" id="new_username" placeholder="Nouveau pseudonyme" required>
+
+          <span class="icon is-small is-left">
+            <i class="fas fa-user"></i>
+          </span>
+
+          <span class="icon is-small is-right">
+              <i class="fas fa-check"></i>
+          </span>
+        </div>
+      </div>
+        
+      <div class="field">
+        <button class="button is-fullwidth is-success is-centered" type="submit">
+          <span>Valider le changement</span>
+        </button>
+      </div>
+    </form>
+  </div>
 {% endblock %}
