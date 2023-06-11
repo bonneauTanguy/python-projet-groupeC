@@ -26,6 +26,7 @@ from .views import (
     index,
     logout,
     get_password,
+    changed_mind,
 )
 
 urlpatterns = [
@@ -40,4 +41,5 @@ urlpatterns = [
     path("item/<int:item_id>/", get_password, name="get_password"),
     path("logout/", logout, name="logout"),
     path("/", index, name="home"),
+    path("changedmymind/", changed_mind, name="changed_mind"),
 ]
