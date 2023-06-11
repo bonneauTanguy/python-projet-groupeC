@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 import requests
 from datetime import date, datetime
+import zxcvbn
 
 
 # Create your views here.
@@ -70,12 +71,15 @@ def create_item(request):
             url = request.POST.get("url")
             user = request.user
 
+            password_score = calculate_password_score(password)  # Calculer le score du mot de passe
+
             item_object = Item.objects.create(
                 username=username,
                 password=password,
                 url=url,
                 creation_date=date.today(),
                 user=user,
+                password_score=password_score,  # Sauvegarder le score du mot de passe dans le modèle Item
             )
             item_object.save()
 
@@ -139,15 +143,7 @@ def get_password(request, item_id):
     item = get_object_or_404(Item, id=item_id)
     return render(request, "get_password.html", {"item": item})
 
-
-def change_password(request):
-    if request.method == "POST":
-        form = PasswordForm(request.POST)
-        if form.is_valid():
-            # Le mot de passe est valide et a passé la vérification du score
-            # Effectuez ici les actions nécessaires, telles que la mise à jour du mot de passe dans la base de données
-            return render(request, "password_change_success.html")
-    else:
-        form = PasswordForm()
-
-    return render(request, "change_password.html", {"form": form})
+def calculate_password_score(password):
+    result = zxcvbn.zxcvbn(password)
+    score = result["score"]  # Score entre 0 et 4
+    return score
